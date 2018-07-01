@@ -11,6 +11,13 @@ import ua.yurezcv.bakingapp.data.model.Recipe;
 
 public final class Utils {
 
+    private Utils() {}
+
+    /* Create a type object for gson */
+    private static Type getRecipeType() {
+        return new TypeToken<ArrayList<Recipe>>(){}.getType();
+    }
+
     /* Parse JSON with recipes with Google gson library */
     public static List<Recipe> parseRecipesJson(String inputJson) {
         Gson gson = new Gson();
@@ -21,10 +28,5 @@ public final class Utils {
     public static String serializeRecipes(List<Recipe> recipes) {
         Gson gson = new Gson();
         return gson.toJson(recipes, getRecipeType());
-    }
-
-    /* Create a type object for gson */
-    private static Type getRecipeType() {
-        return new TypeToken<ArrayList<Recipe>>(){}.getType();
     }
 }

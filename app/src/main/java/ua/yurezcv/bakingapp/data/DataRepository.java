@@ -2,7 +2,6 @@ package ua.yurezcv.bakingapp.data;
 
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ua.yurezcv.bakingapp.data.local.LocalRepository;
@@ -17,8 +16,6 @@ public class DataRepository implements DataSourceContract {
     private final LocalRepository mLocalRepository;
     private final RemoteRepository mRemoteRepository;
 
-    private List<Recipe> mRecipesCache;
-
     private DataRepository(Context context, AppExecutors appExecutors) {
 
         // Prevent form the reflection api.
@@ -28,7 +25,6 @@ public class DataRepository implements DataSourceContract {
 
         mLocalRepository = new LocalRepository(context, appExecutors);
         mRemoteRepository = new RemoteRepository();
-        mRecipesCache = new ArrayList<>();
     }
 
     public static DataRepository getInstance(Context context, AppExecutors appExecutors) {
@@ -50,13 +46,13 @@ public class DataRepository implements DataSourceContract {
             mRemoteRepository.getRecipes(new GetRecipesCallback() {
                 @Override
                 public void onSuccess(List<Recipe> recipes) {
-                    callback.onSuccess(recipes);
                     saveRecipesJson(recipes);
+                    callback.onSuccess(recipes);
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-
+                    // add exceptions handling
                 }
             });
         }
@@ -66,4 +62,5 @@ public class DataRepository implements DataSourceContract {
     public void saveRecipesJson(List<Recipe> recipes) {
         mLocalRepository.saveRecipesJson(recipes);
     }
+
 }

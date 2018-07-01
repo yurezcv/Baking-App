@@ -33,7 +33,8 @@ public final class LocalRepository implements DataSourceContract {
 
             @Override
             public void run() {
-                callback.onSuccess(Utils.parseRecipesJson(json));
+                List<Recipe> recipes = Utils.parseRecipesJson(json);
+                callback.onSuccess(recipes);
             }
         });
     }
