@@ -1,4 +1,4 @@
-package ua.yurezcv.bakingapp.recipes;
+package ua.yurezcv.bakingapp.ui.recipes;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -37,12 +37,12 @@ public class RecipesViewModel extends AndroidViewModel {
         dataRepository.getRecipes(new DataSourceContract.GetRecipesCallback() {
             @Override
             public void onSuccess(List<Recipe> recipes) {
-                Log.d(TAG, recipes.toString());
                 mRecipes.setValue(recipes);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
+                // TODO add error handling
                 Log.e(TAG, throwable.getMessage());
             }
         });

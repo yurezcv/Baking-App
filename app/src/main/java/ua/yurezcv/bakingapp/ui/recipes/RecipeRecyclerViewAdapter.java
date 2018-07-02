@@ -1,4 +1,4 @@
-package ua.yurezcv.bakingapp.recipes;
+package ua.yurezcv.bakingapp.ui.recipes;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import ua.yurezcv.bakingapp.R;
 import ua.yurezcv.bakingapp.data.model.Recipe;
-import ua.yurezcv.bakingapp.recipes.RecipesGridFragment.OnListFragmentInteractionListener;
+import ua.yurezcv.bakingapp.ui.recipes.RecipesGridFragment.OnListFragmentInteractionListener;
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
@@ -32,8 +32,15 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mRecipe = mValues.get(position);
-        holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
         holder.mContentView.setText(mValues.get(position).getName());
+
+        String servingsText = holder.mServingView
+                .getResources().
+                        getQuantityString(R.plurals.servings,
+                                mValues.get(position).getServings(),
+                                mValues.get(position).getServings());
+
+        holder.mServingView.setText(servingsText);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,15 +61,15 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
-        final TextView mIdView;
+        final TextView mServingView;
         final TextView mContentView;
         public Recipe mRecipe;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = view.findViewById(R.id.item_number);
-            mContentView = view.findViewById(R.id.content);
+            mServingView = view.findViewById(R.id.tv_list_servings);
+            mContentView = view.findViewById(R.id.tv_list_recipe_title);
         }
 
         @Override
@@ -72,7 +79,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     }
 
     public void setData(List<Recipe> recipes) {
-        if(mValues != null) {
+        if (mValues != null) {
             mValues.addAll(recipes);
             notifyDataSetChanged();
         }

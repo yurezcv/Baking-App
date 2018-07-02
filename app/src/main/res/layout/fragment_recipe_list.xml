@@ -4,7 +4,7 @@
     android:name="ua.yurezcv.bakingapp.recipes.RecipeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recipes.RecipesGridFragment">
+    tools:context=".ui.recipes.RecipesGridFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipes"
@@ -15,6 +15,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:visibility="invisible"
         tools:context=".movies.MoviesFragment"
         tools:listitem="@layout/fragment_recipe" />
 
@@ -23,7 +24,7 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_gravity="center"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/tv_error_message"

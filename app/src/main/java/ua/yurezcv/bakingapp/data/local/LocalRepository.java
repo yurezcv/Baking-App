@@ -28,7 +28,7 @@ public final class LocalRepository implements DataSourceContract {
     public void getRecipes(final GetRecipesCallback callback) {
         final String json = mSharedPreferences.getString(PREF_KEY_RECIPES, "");
 
-        // parse json in a background thread
+        // parse json in a background thread and publish results into the main thread
         mExecutors.mainThread().execute(new Runnable() {
 
             @Override

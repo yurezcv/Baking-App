@@ -12,17 +12,24 @@ import okhttp3.ResponseBody;
 import ua.yurezcv.bakingapp.data.DataSourceContract;
 import ua.yurezcv.bakingapp.data.model.Recipe;
 import ua.yurezcv.bakingapp.utils.Utils;
+import ua.yurezcv.bakingapp.utils.threading.AppExecutors;
 
 public final class RemoteHttpClient {
 
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient mClient;
+    private final AppExecutors mExecutors;
+
+    RemoteHttpClient(AppExecutors executors) {
+        mClient = new OkHttpClient();
+        mExecutors = executors;
+    }
 
     public void getRecipes(final DataSourceContract.GetRecipesCallback callback) {
         Request request = new Request.Builder()
                 .url("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json")
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        mClient.newCall(request).enqueue(new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -36,8 +43,15 @@ public final class RemoteHttpClient {
                     if (!response.isSuccessful())
                         throw new IOException("Unexpected code " + response);
 
-                    List<Recipe> recipes = Utils.parseRecipesJson(responseBody.string());
-                    callback.onSuccess(recipes);
+                    final List<Recipe> recipes = Utils.parseRecipesJson(responseBody.string());
+
+                    // return callback to the main thread
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(recipes);
+                        }
+                    });
                 }
             }
         });

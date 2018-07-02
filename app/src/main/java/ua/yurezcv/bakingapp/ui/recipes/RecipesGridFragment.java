@@ -1,14 +1,14 @@
-package ua.yurezcv.bakingapp.recipes;
+package ua.yurezcv.bakingapp.ui.recipes;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +53,7 @@ public class RecipesGridFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mRecipesAdapter = new RecipeRecyclerViewAdapter(new ArrayList<Recipe>(), mListener);
+
         setupViewModel();
     }
 
@@ -68,13 +69,12 @@ public class RecipesGridFragment extends Fragment {
         // init the recycler view
         mRecipesGridRecycleView.setLayoutManager(
                 new GridLayoutManager(view.getContext(), calcNumberOfColumns()));
-                // new GridLayoutManager(view.getContext(), 1));
         mRecipesGridRecycleView.setAdapter(mRecipesAdapter);
 
         return view;
     }
 
-    /*    @Override
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
@@ -89,7 +89,39 @@ public class RecipesGridFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }*/
+    }
+
+    private void setupViewModel() {
+        RecipesViewModel viewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
+        viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
+            @Override
+            public void onChanged(@Nullable List<Recipe> recipesEntries) {
+
+                mRecipesAdapter.setData(recipesEntries);
+
+                if (!mRecipesAdapter.isEmpty()) {
+                    hideProgressBar();
+                }
+            }
+        });
+    }
+
+    private int calcNumberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // You can change this divider to adjust the size of the poster
+        int widthDivider = 720;
+        int width = displayMetrics.widthPixels;
+        /*int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2; // to keep the grid aspect
+        return nColumns;*/
+        return width / widthDivider;
+    }
+
+    private void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        mRecipesGridRecycleView.setVisibility(View.VISIBLE);
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -103,28 +135,5 @@ public class RecipesGridFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Recipe item);
-    }
-
-    private void setupViewModel() {
-        RecipesViewModel viewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
-        viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
-            @Override
-            public void onChanged(@Nullable List<Recipe> recipesEntries) {
-                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
-                mRecipesAdapter.setData(recipesEntries);
-            }
-        });
-    }
-
-    private int calcNumberOfColumns() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // You can change this divider to adjust the size of the poster
-        int widthDivider = 400;
-        int width = displayMetrics.widthPixels;
-        /*int nColumns = width / widthDivider;
-        if (nColumns < 2) return 2; // to keep the grid aspect
-        return nColumns;*/
-        return width / widthDivider;
     }
 }

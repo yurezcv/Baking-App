@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Baking App</string>
+
+    <plurals name="servings">
+        <item quantity="one">%d serving</item>
+        <item quantity="other">%d servings</item>
+    </plurals>
 </resources>

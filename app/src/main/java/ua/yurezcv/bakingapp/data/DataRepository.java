@@ -24,7 +24,7 @@ public class DataRepository implements DataSourceContract {
         }
 
         mLocalRepository = new LocalRepository(context, appExecutors);
-        mRemoteRepository = new RemoteRepository();
+        mRemoteRepository = new RemoteRepository(appExecutors);
     }
 
     public static DataRepository getInstance(Context context, AppExecutors appExecutors) {
@@ -44,6 +44,7 @@ public class DataRepository implements DataSourceContract {
             mLocalRepository.getRecipes(callback);
         } else {
             mRemoteRepository.getRecipes(new GetRecipesCallback() {
+
                 @Override
                 public void onSuccess(List<Recipe> recipes) {
                     saveRecipesJson(recipes);
@@ -52,7 +53,7 @@ public class DataRepository implements DataSourceContract {
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    // add exceptions handling
+                    callback.onFailure(throwable);
                 }
             });
         }

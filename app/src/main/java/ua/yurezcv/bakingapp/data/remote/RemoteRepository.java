@@ -4,13 +4,14 @@ import java.util.List;
 
 import ua.yurezcv.bakingapp.data.DataSourceContract;
 import ua.yurezcv.bakingapp.data.model.Recipe;
+import ua.yurezcv.bakingapp.utils.threading.AppExecutors;
 
 public final class RemoteRepository implements DataSourceContract {
 
     private final RemoteHttpClient mRemoteHttpClient;
 
-    public RemoteRepository() {
-        mRemoteHttpClient = new RemoteHttpClient();
+    public RemoteRepository(AppExecutors executors) {
+        mRemoteHttpClient = new RemoteHttpClient(executors);
     }
 
     @Override
