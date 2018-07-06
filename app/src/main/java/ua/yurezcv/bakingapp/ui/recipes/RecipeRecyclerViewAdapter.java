@@ -34,11 +34,10 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         holder.mRecipe = mValues.get(position);
         holder.mContentView.setText(mValues.get(position).getName());
 
-        String servingsText = holder.mServingView
-                .getResources().
-                        getQuantityString(R.plurals.servings,
-                                mValues.get(position).getServings(),
-                                mValues.get(position).getServings());
+        String servingsText = holder.mServingView.getResources().
+                getQuantityString(R.plurals.servings,
+                        mValues.get(position).getServings(),
+                        mValues.get(position).getServings());
 
         holder.mServingView.setText(servingsText);
 
