@@ -17,7 +17,7 @@
         android:layout_marginRight="16dp"
         android:visibility="invisible"
         tools:context=".movies.MoviesFragment"
-        tools:listitem="@layout/fragment_recipe" />
+        tools:listitem="@layout/list_item_recipe" />
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"

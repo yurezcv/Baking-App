@@ -60,7 +60,7 @@ public class RecipesGridFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipes, container, false);
 
         mRecipesGridRecycleView = view.findViewById(R.id.rv_recipes);
         mProgressBar = view.findViewById(R.id.pb_loading_indicator);

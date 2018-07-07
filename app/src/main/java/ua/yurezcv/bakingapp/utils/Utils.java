@@ -7,7 +7,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.yurezcv.bakingapp.data.model.Ingredient;
 import ua.yurezcv.bakingapp.data.model.Recipe;
+import ua.yurezcv.bakingapp.data.model.RecipeStep;
 
 public final class Utils {
 
@@ -28,5 +30,12 @@ public final class Utils {
     public static String serializeRecipes(List<Recipe> recipes) {
         Gson gson = new Gson();
         return gson.toJson(recipes, getRecipeType());
+    }
+
+    public static RecipeStep convetIngredientsToStep(List<Ingredient> ingredients) {
+        RecipeStep step = new RecipeStep();
+        step.setShortDescription("ingredients");
+        step.setDescription(ingredients.toString());
+        return step;
     }
 }

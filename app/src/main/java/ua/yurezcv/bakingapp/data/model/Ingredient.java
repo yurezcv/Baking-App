@@ -24,4 +24,11 @@ public class Ingredient {
     public String getMeasure() {
         return measure;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getName().charAt(0)).toUpperCase()
+                + getName().substring(1)
+                + ": " + getQuantity() + " " + getMeasure();
+    }
 }
