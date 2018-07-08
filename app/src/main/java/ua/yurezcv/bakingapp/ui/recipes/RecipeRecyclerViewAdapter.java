@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ua.yurezcv.bakingapp.R;
 import ua.yurezcv.bakingapp.data.model.Recipe;
 import ua.yurezcv.bakingapp.ui.recipes.RecipesGridFragment.OnListFragmentInteractionListener;
@@ -60,15 +62,15 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
-        final TextView mServingView;
-        final TextView mContentView;
+        @BindView(R.id.tv_list_servings) TextView mServingView;
+        @BindView(R.id.tv_list_recipe_title) TextView mContentView;
+
         public Recipe mRecipe;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mServingView = view.findViewById(R.id.tv_list_servings);
-            mContentView = view.findViewById(R.id.tv_list_recipe_title);
+            ButterKnife.bind(this, view);
         }
 
         @Override

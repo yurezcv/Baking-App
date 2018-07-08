@@ -32,9 +32,9 @@ public final class Utils {
         return gson.toJson(recipes, getRecipeType());
     }
 
-    public static RecipeStep convetIngredientsToStep(List<Ingredient> ingredients) {
+    public static RecipeStep convertIngredientsToStep(List<Ingredient> ingredients) {
         RecipeStep step = new RecipeStep();
-        step.setShortDescription("ingredients");
+        step.setShortDescription("Ingredients");
         step.setDescription(ingredients.toString());
         return step;
     }

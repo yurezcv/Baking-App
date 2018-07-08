@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ua.yurezcv.bakingapp.R;
 import ua.yurezcv.bakingapp.data.model.RecipeStep;
 
@@ -53,13 +55,15 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
-        final TextView mStepTitle;
+
+        @BindView(R.id.tv_step_title) TextView mStepTitle;
+
         public RecipeStep mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mStepTitle = view.findViewById(R.id.tv_step_title);
+            ButterKnife.bind(this, view);
         }
 
         @Override

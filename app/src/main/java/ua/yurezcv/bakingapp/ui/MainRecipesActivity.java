@@ -27,7 +27,7 @@ public class MainRecipesActivity extends AppCompatActivity implements RecipesGri
     public void onListFragmentInteraction(Recipe item) {
         // prepare data for a bundle
         ArrayList<RecipeStep> steps = new ArrayList<>();
-        steps.add(Utils.convetIngredientsToStep(item.getIngredients()));
+        steps.add(Utils.convertIngredientsToStep(item.getIngredients()));
         steps.addAll(item.getSteps());
 
         // prepare intent and pass the data between activities

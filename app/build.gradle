@@ -32,9 +32,6 @@ dependencies {
 
     // LiveData
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
     annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
 
     // OkHttp + gson
@@ -43,6 +40,10 @@ dependencies {
 
     // ExoPlayer
     implementation "com.google.android.exoplayer:exoplayer:2.8.1"
+
+    // Butter Knife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation "com.android.support:support-v4:$support_library_version"
     testImplementation "junit:junit:4.12"

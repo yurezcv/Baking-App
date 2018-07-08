@@ -18,6 +18,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ua.yurezcv.bakingapp.R;
 import ua.yurezcv.bakingapp.data.model.Recipe;
 
@@ -33,9 +35,14 @@ public class RecipesGridFragment extends Fragment {
     private static final String TAG = "RecipesGridFragment";
 
     // UI elements
-    private RecyclerView mRecipesGridRecycleView;
-    private ProgressBar mProgressBar;
-    private TextView mErrorTextView;
+    @BindView(R.id.rv_recipes)
+    RecyclerView mRecipesGridRecycleView;
+
+    @BindView(R.id.pb_loading_indicator)
+    ProgressBar mProgressBar;
+
+    @BindView(R.id.tv_error_message)
+    TextView mErrorTextView;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -60,11 +67,9 @@ public class RecipesGridFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipes, container, false);
 
-        mRecipesGridRecycleView = view.findViewById(R.id.rv_recipes);
-        mProgressBar = view.findViewById(R.id.pb_loading_indicator);
-        mErrorTextView = view.findViewById(R.id.tv_error_message);
+        View view = inflater.inflate(R.layout.fragment_recipes, container, false);
+        ButterKnife.bind(this, view);
 
         // init the recycler view
         mRecipesGridRecycleView.setLayoutManager(
