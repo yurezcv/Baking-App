@@ -34,7 +34,20 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mStepTitle.setText(mValues.get(position).getShortDescription());
+
+        String stepTitle = mValues.get(position).getShortDescription();
+
+        // get localized resource for hardcoded step label
+        if(stepTitle.equals("Ingredients")) {
+            holder.mStepTitle.setText(
+                    holder.mStepTitle.getResources().getString(R.string.ingredients));
+            holder.mStepNumber.setVisibility(View.GONE);
+        } else {
+            holder.mStepTitle.setText(stepTitle);
+            holder.mStepNumber.setText(
+                    holder.mStepNumber.getResources().getString(R.string.step, position));
+        }
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +70,7 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
         final View mView;
 
         @BindView(R.id.tv_step_title) TextView mStepTitle;
+        @BindView(R.id.tv_step_number) TextView mStepNumber;
 
         public RecipeStep mItem;
 

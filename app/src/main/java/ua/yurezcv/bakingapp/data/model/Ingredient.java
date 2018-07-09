@@ -25,10 +25,16 @@ public class Ingredient {
         return measure;
     }
 
+    public String convertToSingleString() {
+        return String.valueOf(getName().charAt(0)).toUpperCase()
+                + getName().substring(1)
+                + ": " + getQuantity() + " " + getMeasure() + "\n";
+    }
+
     @Override
     public String toString() {
         return String.valueOf(getName().charAt(0)).toUpperCase()
                 + getName().substring(1)
-                + ": " + getQuantity() + " " + getMeasure();
+                + ": " + getQuantity() + " " + getMeasure() + "\n";
     }
 }

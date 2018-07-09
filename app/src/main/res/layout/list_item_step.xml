@@ -5,13 +5,27 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:padding="@dimen/text_margin">
+
+    <TextView
+        android:id="@+id/tv_step_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/colorSecondaryText" />
 
     <TextView
         android:id="@+id/tv_step_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_marginBottom="@dimen/text_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorPrimaryText" />
+
+    <View
+        android:background="@color/colorAccent"
+        android:layout_height="1dp"
+        android:layout_width="match_parent" />
 
 </LinearLayout>

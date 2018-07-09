@@ -35,7 +35,13 @@ public final class Utils {
     public static RecipeStep convertIngredientsToStep(List<Ingredient> ingredients) {
         RecipeStep step = new RecipeStep();
         step.setShortDescription("Ingredients");
-        step.setDescription(ingredients.toString());
+
+        StringBuilder builder = new StringBuilder();
+        for (Ingredient ingredient : ingredients) {
+            builder.append(ingredient.convertToSingleString());
+        }
+
+        step.setDescription(builder.toString());
         return step;
     }
 }
