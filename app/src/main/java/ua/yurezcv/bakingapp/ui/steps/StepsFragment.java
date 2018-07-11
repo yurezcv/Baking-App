@@ -2,6 +2,8 @@ package ua.yurezcv.bakingapp.ui.steps;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,9 @@ import ua.yurezcv.bakingapp.data.model.RecipeStep;
 public class StepsFragment extends Fragment {
 
     private static final String ARG_RECIPE_STEPS = "recipe-steps";
+    private static final String KEY_RECYCLER_VIEW_STATE = "state-steps-recycler-view";
+
+    private RecyclerView mStepsRecyclerView;
 
     private OnStepFragmentInteractionListener mListener;
 
@@ -46,7 +51,6 @@ public class StepsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mSteps = getArguments().getParcelableArrayList(ARG_RECIPE_STEPS);
         }
@@ -60,9 +64,14 @@ public class StepsFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new StepsRecyclerViewAdapter(mSteps, mListener));
+            mStepsRecyclerView = (RecyclerView) view;
+            mStepsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mStepsRecyclerView.setAdapter(new StepsRecyclerViewAdapter(mSteps, mListener));
+        }
+
+        if(savedInstanceState != null) {
+            Parcelable recyclerViewState = savedInstanceState.getParcelable(KEY_RECYCLER_VIEW_STATE);
+            mStepsRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         }
 
         return view;
@@ -84,6 +93,13 @@ public class StepsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // save recycler view state
+        outState.putParcelable(KEY_RECYCLER_VIEW_STATE, mStepsRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     /**

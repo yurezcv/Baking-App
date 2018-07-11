@@ -42,7 +42,6 @@ public class RecipesViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Throwable throwable) {
-                // TODO add error handling
                 Log.e(TAG, throwable.getMessage());
             }
         });

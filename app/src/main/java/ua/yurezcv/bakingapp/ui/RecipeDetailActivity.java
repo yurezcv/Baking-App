@@ -20,8 +20,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepsFrag
 
     private static final String TAG_FRAGMENT_STEP_DETAILS = "TagFragmentStepDetails";
     private static final int ID_MASTER_FRAGMENT = R.id.master_fragment_steps;
+    private static final int ID_DETAIL_FRAGMENT = R.id.detail_fragment_steps;
 
     private StepViewModel mStepViewModel;
+
+    private boolean isTwoColumn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +42,24 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepsFrag
             setTitle(title);
         }
 
+        if(findViewById(ID_DETAIL_FRAGMENT) != null && findViewById(ID_MASTER_FRAGMENT) != null) {
+            isTwoColumn = true;
+        }
+
         ArrayList<RecipeStep> steps = intent.getParcelableArrayListExtra(MainRecipesActivity.EXTRA_RECIPE_STEPS);
 
-        StepsFragment stepsFragment =
-                (StepsFragment) getSupportFragmentManager().findFragmentById(ID_MASTER_FRAGMENT);
+        if (savedInstanceState == null) {
+            StepsFragment stepsFragment =
+                    (StepsFragment) getSupportFragmentManager().findFragmentById(ID_MASTER_FRAGMENT);
 
-        // check if fragment exists, init otherwise
-        if (stepsFragment == null) {
-            stepsFragment = StepsFragment.newInstance(steps);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(ID_MASTER_FRAGMENT, stepsFragment);
-            transaction.commit();
+            // check if fragment exists, init otherwise
+            if (stepsFragment == null) {
+                stepsFragment = StepsFragment.newInstance(steps);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.add(ID_MASTER_FRAGMENT, stepsFragment);
+                transaction.commit();
+            }
         }
     }
 

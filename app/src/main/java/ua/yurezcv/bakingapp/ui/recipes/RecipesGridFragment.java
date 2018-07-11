@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,7 +34,7 @@ import ua.yurezcv.bakingapp.data.model.Recipe;
  */
 public class RecipesGridFragment extends Fragment {
 
-    private static final String TAG = "RecipesGridFragment";
+    private static final String KEY_RECYCLER_VIEW_STATE = "recipes-recycler-view";
 
     // UI elements
     @BindView(R.id.rv_recipes)
@@ -76,6 +78,12 @@ public class RecipesGridFragment extends Fragment {
                 new GridLayoutManager(view.getContext(), calcNumberOfColumns()));
         mRecipesGridRecycleView.setAdapter(mRecipesAdapter);
 
+        // restore RecyclerView state if the bundle exists
+        if(savedInstanceState != null) {
+            Parcelable recyclerViewState = savedInstanceState.getParcelable(KEY_RECYCLER_VIEW_STATE);
+            mRecipesGridRecycleView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        }
+
         return view;
     }
 
@@ -94,6 +102,13 @@ public class RecipesGridFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // save RecyclerView state
+        outState.putParcelable(KEY_RECYCLER_VIEW_STATE, mRecipesGridRecycleView.getLayoutManager().onSaveInstanceState());
     }
 
     private void setupViewModel() {
@@ -115,7 +130,7 @@ public class RecipesGridFragment extends Fragment {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         // You can change this divider to adjust the size of the poster
-        int widthDivider = 720;
+        int widthDivider = 600;
         int width = displayMetrics.widthPixels;
         /*int nColumns = width / widthDivider;
         if (nColumns < 2) return 2; // to keep the grid aspect

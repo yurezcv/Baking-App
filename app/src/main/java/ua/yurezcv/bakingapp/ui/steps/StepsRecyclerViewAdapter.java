@@ -44,8 +44,13 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
             holder.mStepNumber.setVisibility(View.GONE);
         } else {
             holder.mStepTitle.setText(stepTitle);
-            holder.mStepNumber.setText(
-                    holder.mStepNumber.getResources().getString(R.string.step, position));
+            if(position >= 2) {
+                holder.mStepNumber.setVisibility(View.VISIBLE);
+                holder.mStepNumber.setText(
+                        holder.mStepNumber.getResources().getString(R.string.step, position - 1));
+            } else {
+                holder.mStepNumber.setVisibility(View.GONE);
+            }
         }
 
 
