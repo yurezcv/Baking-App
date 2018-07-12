@@ -18,7 +18,7 @@ import ua.yurezcv.bakingapp.utils.threading.DiskIOThreadExecutor;
 
 public class RecipesViewModel extends AndroidViewModel {
 
-    private static String TAG = "RecipesViewModel";
+    private static final String TAG = "RecipesViewModel";
 
     private MutableLiveData<List<Recipe>> mRecipes;
 

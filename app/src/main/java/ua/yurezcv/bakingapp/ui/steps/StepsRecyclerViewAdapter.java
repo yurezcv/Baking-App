@@ -1,5 +1,6 @@
 package ua.yurezcv.bakingapp.ui.steps;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,12 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
     private final List<RecipeStep> mValues;
     private final StepsFragment.OnStepFragmentInteractionListener mListener;
 
-    StepsRecyclerViewAdapter(List<RecipeStep> items, StepsFragment.OnStepFragmentInteractionListener listener) {
+    private int mSelectedPos;
+
+    StepsRecyclerViewAdapter(List<RecipeStep> items, int selected, StepsFragment.OnStepFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        mSelectedPos = selected;
     }
 
     @Override
@@ -34,6 +38,9 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+
+        int selectedColor = holder.itemView.getResources().getColor(R.color.colorPrimaryDarkTransparent);
+        holder.itemView.setBackgroundColor(mSelectedPos == position ? selectedColor : Color.TRANSPARENT);
 
         String stepTitle = mValues.get(position).getShortDescription();
 
@@ -53,7 +60,6 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
             }
         }
 
-
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +67,10 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
+
+                    notifyItemChanged(mSelectedPos);
+                    mSelectedPos = holder.getAdapterPosition();
+                    notifyItemChanged(mSelectedPos);
                 }
             }
         });
@@ -69,6 +79,10 @@ public class StepsRecyclerViewAdapter extends RecyclerView.Adapter<StepsRecycler
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public int getSelectedPosition() {
+        return mSelectedPos;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

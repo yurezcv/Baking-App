@@ -129,12 +129,8 @@ public class RecipesGridFragment extends Fragment {
     private int calcNumberOfColumns() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // You can change this divider to adjust the size of the poster
         int widthDivider = 600;
         int width = displayMetrics.widthPixels;
-        /*int nColumns = width / widthDivider;
-        if (nColumns < 2) return 2; // to keep the grid aspect
-        return nColumns;*/
         return width / widthDivider;
     }
 

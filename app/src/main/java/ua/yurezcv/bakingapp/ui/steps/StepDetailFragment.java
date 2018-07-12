@@ -58,7 +58,7 @@ public class StepDetailFragment extends Fragment {
             @Override
             public void onChanged(@Nullable RecipeStep recipeStep) {
                 mRecipeStep = recipeStep;
-                updateViews(recipeStep);
+                updateViews();
             }
         });
     }
@@ -87,7 +87,6 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // hideSystemUi();
         if ((Util.SDK_INT <= 23 || mPlayer == null)) {
             initPlayer();
         }
@@ -109,8 +108,9 @@ public class StepDetailFragment extends Fragment {
         }
     }
 
-    private void updateViews(RecipeStep recipeStep) {
-        mTextView.setText(recipeStep.getDescription());
+    private void updateViews() {
+        mTextView.setText(mRecipeStep.getDescription());
+        initPlayer();
     }
 
     private void initPlayer() {
@@ -126,11 +126,20 @@ public class StepDetailFragment extends Fragment {
                 mPlayer.setPlayWhenReady(playWhenReady);
                 mPlayer.seekTo(currentWindow, playbackPosition);
 
-                Uri uri = Uri.parse(mRecipeStep.getVideoUrl());
-                MediaSource mediaSource = buildMediaSource(uri);
+                MediaSource mediaSource = buildMediaSource(mRecipeStep.getVideoUrl());
                 mPlayer.prepare(mediaSource, true, false);
+
+                mPlayerView.setVisibility(View.VISIBLE);
+            } else {
+                MediaSource mediaSource = buildMediaSource(mRecipeStep.getVideoUrl());
+                mPlayer.prepare(mediaSource, true, false);
+
+                mPlayerView.setVisibility(View.VISIBLE);
             }
         } else {
+            if(mPlayer != null && mPlayer.getPlayWhenReady()) {
+                mPlayer.stop();
+            }
             mPlayerView.setVisibility(View.GONE);
         }
     }
@@ -145,7 +154,9 @@ public class StepDetailFragment extends Fragment {
         }
     }
 
-    private MediaSource buildMediaSource(Uri uri) {
+    private MediaSource buildMediaSource(String videoUrl) {
+        Uri uri = Uri.parse(videoUrl);
+
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory("bakingapp-exoplayer")).
                 createMediaSource(uri);

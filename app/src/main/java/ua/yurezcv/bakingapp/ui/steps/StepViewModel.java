@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import ua.yurezcv.bakingapp.data.model.RecipeStep;
 
 public class StepViewModel extends ViewModel {
-    private final MutableLiveData<RecipeStep> mSelectedStep = new MutableLiveData<RecipeStep>();
+    private final MutableLiveData<RecipeStep> mSelectedStep = new MutableLiveData<>();
 
     public void selectStep(RecipeStep item) {
         mSelectedStep.setValue(item);

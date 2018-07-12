@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -18,9 +19,11 @@ import ua.yurezcv.bakingapp.ui.steps.StepsFragment;
 
 public class RecipeDetailActivity extends AppCompatActivity implements StepsFragment.OnStepFragmentInteractionListener {
 
-    private static final String TAG_FRAGMENT_STEP_DETAILS = "TagFragmentStepDetails";
+    public static final String TAG_FRAGMENT_STEP_DETAILS = "TagFragmentStepDetails";
     private static final int ID_MASTER_FRAGMENT = R.id.master_fragment_steps;
     private static final int ID_DETAIL_FRAGMENT = R.id.detail_fragment_steps;
+
+    private StepDetailFragment mDetailFragment;
 
     private StepViewModel mStepViewModel;
 
@@ -42,23 +45,43 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepsFrag
             setTitle(title);
         }
 
-        if(findViewById(ID_DETAIL_FRAGMENT) != null && findViewById(ID_MASTER_FRAGMENT) != null) {
+        int selectedPosition = RecyclerView.NO_POSITION;
+
+        if (findViewById(ID_DETAIL_FRAGMENT) != null && findViewById(ID_MASTER_FRAGMENT) != null) {
             isTwoColumn = true;
+            selectedPosition = 0;
         }
 
         ArrayList<RecipeStep> steps = intent.getParcelableArrayListExtra(MainRecipesActivity.EXTRA_RECIPE_STEPS);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (savedInstanceState == null) {
-            StepsFragment stepsFragment =
+
+            StepsFragment masterFragment =
                     (StepsFragment) getSupportFragmentManager().findFragmentById(ID_MASTER_FRAGMENT);
 
             // check if fragment exists, init otherwise
-            if (stepsFragment == null) {
-                stepsFragment = StepsFragment.newInstance(steps);
-                FragmentManager fragmentManager = getSupportFragmentManager();
+            if (masterFragment == null) {
+                masterFragment = StepsFragment.newInstance(steps, selectedPosition, isTwoColumn);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.add(ID_MASTER_FRAGMENT, stepsFragment);
+                transaction.add(ID_MASTER_FRAGMENT, masterFragment);
                 transaction.commit();
+            }
+
+            if (isTwoColumn) {
+                // select first step
+                mStepViewModel.selectStep(steps.get(0));
+
+                mDetailFragment =
+                        (StepDetailFragment) getSupportFragmentManager().findFragmentById(ID_DETAIL_FRAGMENT);
+                if (mDetailFragment == null) {
+                    mDetailFragment = new StepDetailFragment();
+
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.add(ID_DETAIL_FRAGMENT, mDetailFragment);
+                    transaction.commit();
+                }
             }
         }
     }
@@ -67,16 +90,31 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepsFrag
     public void onListFragmentInteraction(RecipeStep item) {
         mStepViewModel.selectStep(item);
 
-        StepDetailFragment detailFragment =
-                (StepDetailFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_STEP_DETAILS);
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (detailFragment == null) {
-            detailFragment = new StepDetailFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(ID_MASTER_FRAGMENT, detailFragment, TAG_FRAGMENT_STEP_DETAILS);
-            transaction.addToBackStack(null);
-            transaction.commit();
+        if (isTwoColumn) {
+            mDetailFragment =
+                    (StepDetailFragment) getSupportFragmentManager().findFragmentById(ID_DETAIL_FRAGMENT);
+            if (mDetailFragment == null) {
+                mDetailFragment = new StepDetailFragment();
+
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(ID_DETAIL_FRAGMENT, mDetailFragment, TAG_FRAGMENT_STEP_DETAILS);
+                transaction.commit();
+            }
+        } else {
+            mDetailFragment =
+                    (StepDetailFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_STEP_DETAILS);
+
+            if (mDetailFragment == null) {
+                mDetailFragment = new StepDetailFragment();
+
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(ID_MASTER_FRAGMENT, mDetailFragment, TAG_FRAGMENT_STEP_DETAILS);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
         }
+
     }
 }
