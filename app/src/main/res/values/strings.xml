@@ -16,5 +16,7 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="menu_save_widget">Save Widget</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
 
 </resources>

@@ -3,7 +3,6 @@ package ua.yurezcv.bakingapp.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -24,8 +23,6 @@ public class IngredientsWidgetService extends RemoteViewsService {
 
     class IngredientsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-        static final String TAG = "IngredientsService";
-
         private Context mContext;
         private int mAppWidgetId;
         private int mRecipeId;
@@ -42,12 +39,15 @@ public class IngredientsWidgetService extends RemoteViewsService {
 
         @Override
         public void onCreate() {
-            Log.d(TAG, "onCreate, widget id = "
-                    + mAppWidgetId + " recipe id = " + mRecipeId);
+            getIngredients();
         }
 
         @Override
         public void onDataSetChanged() {
+            getIngredients();
+        }
+
+        private void getIngredients() {
             LocalRepository localRepository = new LocalRepository(mContext, null);
             List<Recipe> recipes = localRepository.getRecipesSync();
             for (Recipe recipe : recipes) {

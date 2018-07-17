@@ -2,15 +2,12 @@ package ua.yurezcv.bakingapp.widget;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.util.List;
 
-import ua.yurezcv.bakingapp.R;
 import ua.yurezcv.bakingapp.data.local.LocalRepository;
 import ua.yurezcv.bakingapp.data.model.Recipe;
 
@@ -21,8 +18,6 @@ public class GetRecipeService extends IntentService {
     public static final String EXTRA_WIDGET_ID = "ua.yurezcv.bakingapp.widget.extra.WIDGET_ID";
 
     private static final int INVALID_RECIPE_ID = -1;
-
-    private static final String TAG = "GetRecipeService";
 
     private int mWidgetId;
 
@@ -70,12 +65,6 @@ public class GetRecipeService extends IntentService {
 
     private void updateWidget(Recipe recipe) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, IngredientsWidget.class));
-        // Trigger data update to handle the GridView widgets and force a data refresh
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_ingredients);
-
-        Log.d(TAG, "updating ingredients for " + recipe.getName());
 
         // Now update the widget by widget id
         IngredientsWidget.updateIngredientWidget(this.getApplicationContext(), appWidgetManager, mWidgetId, recipe);
