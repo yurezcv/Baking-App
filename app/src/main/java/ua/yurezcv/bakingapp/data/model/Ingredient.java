@@ -25,10 +25,14 @@ public class Ingredient {
         return measure;
     }
 
-    public String convertToSingleString() {
+    public String formatForWidget() {
         return String.valueOf(getName().charAt(0)).toUpperCase()
                 + getName().substring(1)
-                + ": " + getQuantity() + " " + getMeasure() + "\n";
+                + ": " + getQuantity() + " " + getMeasure();
+    }
+
+    public String convertToSingleString() {
+        return formatForWidget() + "\n";
     }
 
     @Override

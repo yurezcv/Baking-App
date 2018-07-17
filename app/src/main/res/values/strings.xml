@@ -12,5 +12,9 @@
     <string name="title_step_detail">Step Detail</string>
 
     <string name="ingredients">Ingredients</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="menu_save_widget">Save Widget</string>
 
 </resources>

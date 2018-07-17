@@ -47,6 +47,12 @@ public final class LocalRepository implements DataSourceContract {
                 .apply();
     }
 
+    public List<Recipe> getRecipesSync() {
+        final String json = mSharedPreferences.getString(PREF_KEY_RECIPES, "");
+
+        return Utils.parseRecipesJson(json);
+    }
+
     public boolean hasSavedData() {
         return mSharedPreferences.contains(PREF_KEY_RECIPES);
     }

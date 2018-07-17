@@ -17,6 +17,7 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,6 +27,28 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ua.yurezcv.bakingapp.ui.MainRecipesActivity" />
+        </activity>
+
+        <receiver android:name=".widget.IngredientsWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/ingredients_widget_info" />
+        </receiver>
+
+        <service android:name=".widget.GetRecipeService" />
+
+        <service android:name=".widget.IngredientsWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+
+        <activity android:name=".widget.IngredientsWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
         </activity>
     </application>
 
