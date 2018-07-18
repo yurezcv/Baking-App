@@ -20,6 +20,7 @@ Shows cards with recipes and allows navigation between recipes and recipe steps.
 * [gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back;
 * [OkHttp](https://square.github.io/okhttp/) - An HTTP & HTTP/2 client for Android and Java applications;
 * [ExoPlayer](https://google.github.io/ExoPlayer/) - An application level media player for Android;
+* [Picasso](https://square.github.io/picasso/) - A powerful image downloading and caching library for Android
 * [Butter Knife](http://jakewharton.github.io/butterknife/) - Field and method binding for Android views.
 
 
